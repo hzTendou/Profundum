@@ -1,0 +1,26 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^tendou [NC]
+RewriteRule ^(.*)$ https://www.tendou.xyz/$1 [L,R=301,NC]
+
+<IfModule mod_security.c>
+  SecFilterEngine Off
+  SecFilterScanPOST Off
+</IfModule>
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^ https://www.tendou.xyz/404.html [L,R]
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+deny from 95.65.134.82
+
+RewriteCond %{HTTP_REFERER} !^https://tendou.xyz/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tendou.xyz$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tendou.xyz/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tendou.xyz$      [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+
